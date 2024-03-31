@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
     const { description } = req.body
 
-    const prompt = `Given the following book description, give me the titles of 3 similar novels (similar in terms of core themes, narrative style, or settings and locations...), simply separated by a comma. Description:\n\n${description}`
+    const prompt = `Given the following book description, give me the titles of 3 similar (not the exact same one) novels in English (similar in terms of core themes, narrative style, or settings and locations...), simply separated by a comma, nothing else. Description:\n\n${description}`
 
     try {
         const response = await openai.chat.completions.create({
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
                     content: prompt,
                 },
             ],
-            temperature: 0.5,
+            temperature: 0.7,
             max_tokens: 64,
             top_p: 1.0,
             frequency_penalty: 0.5,

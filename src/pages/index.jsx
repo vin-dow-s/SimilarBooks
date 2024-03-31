@@ -1,40 +1,65 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import Head from "next/head"
 import Image from "next/image"
 import "../app/styles/globals.css"
 
 export default function Home() {
     const [bookTitle, setBookTitle] = useState("")
+    const [showSuggestions, setShowSuggestions] = useState(false)
     const [bookSuggestions, setBookSuggestions] = useState([])
     const [selectedBook, setSelectedBook] = useState(null)
     const [similarBooks, setSimilarBooks] = useState([])
     const [loading, setLoading] = useState(false)
 
-    // Function to handle form submission
-    async function handleSubmit(event) {
-        event.preventDefault()
-        setLoading(true)
+    //Function to fetch book suggestions based on title input
+    useEffect(() => {
+        if (bookTitle) {
+            setLoading(true)
+            const fetchBookSuggestions = async () => {
+                const suggestionsURL = `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(
+                    bookTitle
+                )}&langRestrict=en&maxResults=5&key=${
+                    process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY
+                }`
 
-        // Step 1: Fetch the book's description based on the title
-        const bookToFindURL = `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(
-            bookTitle
-        )}&langRestrict=en&maxResults=5&key=${
-            process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY
-        }`
-
-        try {
-            const bookToFindRes = await fetch(bookToFindURL)
-            const bookToFindData = await bookToFindRes.json()
-
-            const filteredBooks =
-                bookToFindData.items?.filter(
-                    (book) => book.volumeInfo.description
-                ) || []
-
-            if (filteredBooks.length === 0) {
-                throw new Error("No suitable books found with descriptions.")
+                try {
+                    const response = await fetch(suggestionsURL)
+                    const data = await response.json()
+                    setBookSuggestions(data.items || [])
+                    setLoading(false)
+                } catch (error) {
+                    console.error("Error fetching book suggestions:", error)
+                    setLoading(false)
+                } finally {
+                    setLoading(false)
+                }
             }
 
-            const bookDescription = filteredBooks[0].volumeInfo.description
+            const timeoutId = setTimeout(() => {
+                fetchBookSuggestions()
+            }, 700)
+
+            return () => clearTimeout(timeoutId)
+        } else {
+            setBookSuggestions([])
+            setLoading(false)
+        }
+    }, [bookTitle])
+
+    // Function to handle book selection from suggestions
+    const handleSelectBook = (suggestion) => {
+        setBookTitle(suggestion.volumeInfo.title)
+        setSelectedBook(suggestion)
+        setShowSuggestions(false)
+        handleFetchSimilarBooks(suggestion)
+    }
+
+    //Form submission : getSimilarBooks then fetchGoogleBooks
+    const handleFetchSimilarBooks = async (selectedBook) => {
+        setLoading(true)
+
+        try {
+            const bookDescription = selectedBook.volumeInfo.description
 
             // Fetch titles of similar books based on the description
             const similarBooksRes = await fetch("/api/getSimilarBooks", {
@@ -51,9 +76,10 @@ export default function Home() {
                 body: JSON.stringify({ titles: similarBooksTitles }),
             })
             const booksData = await booksDataRes.json()
-            console.log("🚀 ~ handleSubmit ~ booksData:", booksData)
 
-            setSimilarBooks(booksData.items || [])
+            const limitedBooksData = booksData.items.slice(0, 3)
+
+            setSimilarBooks(limitedBooksData)
         } catch (error) {
             console.error("Error:", error)
         } finally {
@@ -62,79 +88,173 @@ export default function Home() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-2">
-            <h1 className="text-4xl font-bold">Find Similar Books</h1>
-            <form onSubmit={handleSubmit} className="mt-4 w-full max-w-lg mb-4">
-                <div className="flex items-center">
-                    <input
-                        type="text"
-                        value={bookTitle}
-                        onChange={(e) => setBookTitle(e.target.value)}
-                        placeholder="Enter the title of a book..."
-                        required
-                        className="flex-1 px-4 py-2  border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
-                    />
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="px-6 py-2 text-white bg-indigo-600 rounded-r-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50"
-                    >
-                        {loading ? (
-                            "Loading..."
-                        ) : (
-                            <Image
-                                src="/search-line.svg"
-                                alt="Search Icon"
-                                width={24}
-                                height={24}
-                            />
-                        )}
-                    </button>
-                </div>
-            </form>
-            {similarBooks.length > 0 && (
-                <div className="mt-8 w-full max-w-6xl">
-                    <ul className="list-none flex -mx-2">
-                        {" "}
-                        {similarBooks.map((book, index) => (
-                            <li
-                                key={index}
-                                className="flex flex-col items-center space-x-4 p-2"
-                            >
-                                {book.volumeInfo.imageLinks?.thumbnail && (
-                                    <div className="relative w-32 h-48 rounded">
-                                        <Image
-                                            src={book.volumeInfo.imageLinks.thumbnail.replace(
-                                                "http:",
-                                                "https:"
-                                            )}
-                                            alt={`Cover of the book ${book.volumeInfo.title}`}
-                                            layout="fill"
-                                            objectFit="cover"
-                                            className="rounded"
-                                        />
-                                    </div>
-                                )}
-                                <div className="content-center text-center">
-                                    <h3 className="text-xl font-semibold pt-4">
-                                        {book.volumeInfo.title}
-                                    </h3>
-                                    <p className="text-gray-300 text-sm">
-                                        {book.volumeInfo.authors[0]}
-                                    </p>
-                                    <p className="text-gray-400 text-sm pt-4 text-left">
-                                        {book.volumeInfo.description?.substring(
-                                            0,
-                                            150
+        <>
+            <Head>
+                <title>Find Similar Books</title>
+                <meta
+                    name="description"
+                    content="Search for a book and get similar suggestions based on its description."
+                />
+            </Head>
+            <div
+                className={`relative flex flex-col items-center ${
+                    similarBooks.length > 0
+                        ? "justify-center"
+                        : "justify-start pt-44"
+                } min-h-screen py-2 px-4 sm:px-6 lg:px-8`}
+            >
+                <h1 className="text-4xl lg:text-5xl font-bold lobster-two-regular mt-12">
+                    Find Similar Books
+                </h1>
+                <form className="mt-6 w-full max-w-lg mb-12">
+                    <div className="relative flex items-center w-full max-w-lg">
+                        <input
+                            type="text"
+                            value={bookTitle}
+                            onChange={(e) => {
+                                setBookTitle(e.target.value)
+                                setShowSuggestions(true)
+                                setLoading(true)
+                            }}
+                            placeholder="Enter the title of a book..."
+                            required
+                            className="flex-1 px-6 py-3  border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
+                            onBlur={() => {
+                                setTimeout(() => setShowSuggestions(false), 100)
+                            }}
+                        />
+
+                        {showSuggestions && bookSuggestions.length > 0 && (
+                            <ul className="absolute w-full left-0 top-14 z-10 border border-gray-300 bg-white rounded-md shadow-lg">
+                                {bookSuggestions.map((suggestion, index) => (
+                                    <li
+                                        key={index}
+                                        className="flex h-16 [&:not(:last-child)]:border-b-2 justify-between items-center px-4 py-2 hover:bg-gray-100 cursor-pointer text-black"
+                                        onMouseDown={() =>
+                                            handleSelectBook(suggestion)
+                                        }
+                                    >
+                                        <div className="flex-1 truncate">
+                                            <span
+                                                className="block truncate"
+                                                style={{
+                                                    maxWidth: "90%",
+                                                }}
+                                            >
+                                                {suggestion.volumeInfo.title}
+                                            </span>
+                                        </div>
+                                        {suggestion.volumeInfo.imageLinks
+                                            ?.thumbnail && (
+                                            <Image
+                                                src={suggestion.volumeInfo.imageLinks.thumbnail.replace(
+                                                    "http:",
+                                                    "https:"
+                                                )}
+                                                alt={`Cover of the book ${suggestion.volumeInfo.title}`}
+                                                width={0}
+                                                height={0}
+                                                sizes="100vw"
+                                                style={{
+                                                    width: "32px",
+                                                    height: "auto",
+                                                }}
+                                                className="rounded"
+                                            />
                                         )}
-                                        ...
-                                    </p>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+
+                        <button
+                            onClick={(event) => {
+                                event.preventDefault()
+                                selectedBook &&
+                                    (setBookTitle(
+                                        selectedBook.volumeInfo.title
+                                    ),
+                                    handleFetchSimilarBooks(selectedBook))
+                            }}
+                            type="submit"
+                            disabled={loading}
+                            className="relative flex justify-center items-center w-16 h-12 text-white bg-indigo-600 rounded-r-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50"
+                        >
+                            {loading ? (
+                                <div className="dot-flashing"></div>
+                            ) : (
+                                <Image
+                                    src="/refresh-line.svg"
+                                    alt="Refresh Icon"
+                                    width={24}
+                                    height={24}
+                                />
+                            )}
+                        </button>
+                    </div>
+                </form>
+
+                {similarBooks.length > 0 && (
+                    <div className="mt-8 mb-20 w-full max-w-6xl">
+                        <ul className="list-none flex flex-wrap -mx-2">
+                            {similarBooks.map((book, index) => (
+                                <li
+                                    key={index}
+                                    className="w-full md:w-1/3 lg:w-1/3 xl:w-1/3  max-sm:mb-16 p-2 flex flex-col items-center space-x-4"
+                                >
+                                    {book.volumeInfo.imageLinks?.thumbnail && (
+                                        <a
+                                            href={book.volumeInfo.infoLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <div className="relative w-32 h-48 rounded cursor-pointer">
+                                                <Image
+                                                    src={book.volumeInfo.imageLinks.thumbnail.replace(
+                                                        "http:",
+                                                        "https:"
+                                                    )}
+                                                    alt={`Cover of the book ${book.volumeInfo.title}`}
+                                                    sizes="100vw"
+                                                    width={0}
+                                                    height={0}
+                                                    style={{
+                                                        width: "100%",
+                                                        height: "100%",
+                                                    }}
+                                                    className="rounded opacity-100 hover:opacity-50 transition-opacity duration-200 ease-in-out"
+                                                />
+                                            </div>
+                                        </a>
+                                    )}
+                                    <div className="content-center text-center">
+                                        <h3 className="text-xl font-semibold mt-4">
+                                            {book.volumeInfo.title}
+                                        </h3>
+                                        <p className="text-gray-300 text-sm">
+                                            {book.volumeInfo.authors[0]}
+                                        </p>
+                                        <p className="text-gray-400 text-sm pt-4 text-left">
+                                            {book.volumeInfo.description?.substring(
+                                                0,
+                                                500
+                                            )}
+                                            ...
+                                        </p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+                <div className="absolute bottom-0 mb-2 text-sm">
+                    © 2024 by{" "}
+                    <a href="https://vindows.dev" className="italic">
+                        Vindows
+                    </a>
+                    .
                 </div>
-            )}
-        </div>
+            </div>
+        </>
     )
 }
