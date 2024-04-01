@@ -105,7 +105,7 @@ export default function Home() {
                     loadingSimilarBooks || similarBooks.length > 0
                         ? "justify-center"
                         : "lg:justify-start lg:pt-44 justify-start pt-0"
-                } min-h-screen py-2 px-4 sm:px-6 lg:px-8`}
+                } min-h-dvh py-2 px-4 sm:px-6 lg:px-8`}
             >
                 <h1 className="text-4xl lg:text-5xl font-bold lobster-two-regular mt-12">
                     Find Similar Books
