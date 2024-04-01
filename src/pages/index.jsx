@@ -272,12 +272,18 @@ export default function Home() {
                                                 )}
                                                 <div className="content-center text-center">
                                                     <h3 className="text-xl font-semibold mt-4">
-                                                        {book.volumeInfo.title?.substring(
-                                                            0,
-                                                            30
-                                                        )}
-                                                        ...
+                                                        {book.volumeInfo
+                                                            .title &&
+                                                        book.volumeInfo.title
+                                                            .length > 30
+                                                            ? book.volumeInfo.title.substring(
+                                                                  0,
+                                                                  30
+                                                              ) + "..."
+                                                            : book.volumeInfo
+                                                                  .title}
                                                     </h3>
+
                                                     <p className="text-gray-300 text-sm">
                                                         {
                                                             book.volumeInfo
