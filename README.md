@@ -13,7 +13,4 @@ Search for a book and get similar suggestions based on its description.
 
 ## Technologies
 
-- **React**: For building the user interface.
-- **Next.js**: React framework for server-side rendering.
-- **Tailwind CSS**: For styling components responsively.
-- **@nextui-org/react**: For skeleton placeholders and other UI components.
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
