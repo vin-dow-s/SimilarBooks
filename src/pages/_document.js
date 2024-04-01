@@ -4,7 +4,7 @@ export default function Document() {
     return (
         <Html>
             <Head>
-                <link rel="icon" href="/reading-book.png" />
+                <link rel="icon" href="/books.png" />
 
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link

@@ -1,4 +1,5 @@
 // pages/api/fetchGoogleBooks.js
+
 export default async function handler(req, res) {
     if (req.method !== "POST") {
         return res.status(405).json({ message: "Method not allowed" })
@@ -14,7 +15,7 @@ export default async function handler(req, res) {
         titles.map(async (title) => {
             const API_URL = `https://www.googleapis.com/books/v1/volumes?q=intitle:${encodeURIComponent(
                 title
-            )}&key=${process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY}`
+            )}&key=${process.env.GOOGLE_BOOKS_API_KEY}`
             try {
                 const response = await fetch(API_URL)
                 const data = await response.json()
