@@ -104,7 +104,7 @@ export default function Home() {
                 className={`relative flex flex-col items-center ${
                     loadingSimilarBooks || similarBooks.length > 0
                         ? "justify-center"
-                        : "lg:justify-start lg:pt-44 justify-start pt-0"
+                        : "lg:justify-start lg:pt-44 justify-start"
                 } min-h-dvh py-8 px-4 sm:px-6 lg:px-8`}
             >
                 <h1 className="text-4xl lg:text-5xl font-bold lobster-two-regular mt-12">
