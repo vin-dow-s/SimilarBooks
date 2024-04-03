@@ -105,7 +105,7 @@ export default function Home() {
                     loadingSimilarBooks || similarBooks.length > 0
                         ? "justify-center"
                         : "lg:justify-start lg:pt-44 justify-start pt-0"
-                } min-h-dvh py-2 px-4 sm:px-6 lg:px-8`}
+                } min-h-dvh py-8 px-4 sm:px-6 lg:px-8`}
             >
                 <h1 className="text-4xl lg:text-5xl font-bold lobster-two-regular mt-12">
                     Find Similar Books
@@ -239,7 +239,7 @@ export default function Home() {
                                         book && (
                                             <li
                                                 key={index}
-                                                className="w-full md:w-1/3 lg:w-1/3 xl:w-1/3  max-sm:mb-16 p-2 flex flex-col items-center space-x-4"
+                                                className="w-full md:w-1/3 lg:w-1/3 xl:w-1/3  max-sm:mb-16 p-2 flex flex-col items-center"
                                             >
                                                 {book.volumeInfo.imageLinks
                                                     ?.thumbnail && (
