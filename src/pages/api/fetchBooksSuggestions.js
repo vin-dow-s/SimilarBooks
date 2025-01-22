@@ -1,5 +1,4 @@
-// pages/api/fetchBooksSuggestions.js
-
+// This API route fetches book suggestions from the Google Books API based on the title of the book entered by the user
 export default async function handler(req, res) {
     if (req.method === "GET") {
         const { title } = req.query
@@ -10,6 +9,7 @@ export default async function handler(req, res) {
         try {
             const response = await fetch(suggestionsURL)
             const data = await response.json()
+
             res.status(200).json(data.items || [])
         } catch (error) {
             console.error("Error fetching book suggestions:", error)

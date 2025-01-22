@@ -1,5 +1,4 @@
-// pages/api/fetchGoogleBooks.js
-
+// This API route fetches books from the Google Books API based on the title received (selected book by the user from the dropdown).
 export default async function handler(req, res) {
     if (req.method !== "POST") {
         return res.status(405).json({ message: "Method not allowed" })
@@ -19,6 +18,7 @@ export default async function handler(req, res) {
             try {
                 const response = await fetch(API_URL)
                 const data = await response.json()
+
                 if (data.items && data.items.length > 0) {
                     const book = data.items[0]
                     return book
