@@ -76,13 +76,20 @@ const Home = () => {
                         <button
                             onClick={(event) => {
                                 event.preventDefault()
-                                selectedBook && handleSelectBook(selectedBook)
+                                if (selectedBook) {
+                                    const currentBook = selectedBook
+                                    setSelectedBook(null)
+                                    setTimeout(
+                                        () => setSelectedBook(currentBook),
+                                        0
+                                    )
+                                }
                             }}
                             type="submit"
-                            disabled={loadingSuggestions}
+                            disabled={loadingSuggestions || loadingSimilarBooks}
                             className="relative flex justify-center items-center w-16 h-12 text-white bg-indigo-600 rounded-r-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50"
                         >
-                            {loadingSuggestions ? (
+                            {loadingSuggestions || loadingSimilarBooks ? (
                                 <div className="dot-flashing"></div>
                             ) : (
                                 <Image
