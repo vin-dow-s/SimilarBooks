@@ -1,3 +1,5 @@
+import fetchWithTimeout from "@/lib/fetchWithTimeout"
+
 // This API route fetches books from the Google Books API based on the title received (selected book by the user from the dropdown).
 export default async function handler(req, res) {
     if (req.method !== "POST") {
@@ -16,7 +18,7 @@ export default async function handler(req, res) {
                 title
             )}&key=${process.env.GOOGLE_BOOKS_API_KEY}`
             try {
-                const response = await fetch(API_URL)
+                const response = await fetchWithTimeout(API_URL)
                 const data = await response.json()
 
                 if (data.items && data.items.length > 0) {

@@ -27,6 +27,18 @@ const Home = () => {
         setShowSuggestions(false)
     }
 
+    if (suggestions.length === 0 || similarBooks.length === 0) {
+        return (
+            <div className="flex justify-center items-center h-dvh">
+                <p className="text-2xl">
+                    {" "}
+                    No results found. Try a different book title or check
+                    spelling.
+                </p>
+            </div>
+        )
+    }
+
     return (
         <>
             <Head>

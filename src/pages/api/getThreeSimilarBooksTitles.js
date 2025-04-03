@@ -6,17 +6,32 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: "Method not allowed" })
     }
 
+    if (!process.env.OPENAI_API_KEY) {
+        console.error("❌ OPENAI_API_KEY is missing!")
+        return res.status(500).json({ error: "Missing OpenAI API key" })
+    }
+
     const openai = new OpenAI({
         apiKey: process.env.OPENAI_API_KEY,
     })
 
     const { description } = req.body
 
+    if (
+        !description ||
+        typeof description !== "string" ||
+        description.length < 40
+    ) {
+        return res
+            .status(400)
+            .json({ error: "Invalid or too short description" })
+    }
+
     const prompt = `Given the following book description, give me the titles of 3 similar (not the exact same one) novels in English (similar in terms of core themes, narrative style, or settings and locations...), simply separated by a comma, nothing else. Description:\n\n${description}`
 
     try {
         const response = await openai.chat.completions.create({
-            model: "gpt-4-0125-preview",
+            model: "gpt-4o",
             messages: [
                 {
                     role: "user",
