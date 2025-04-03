@@ -71,7 +71,7 @@ const Home = () => {
                             }}
                             placeholder="Enter the title of a book..."
                             required
-                            className="flex-1 px-6 py-3  border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
+                            className="flex-1 px-6 py-3  border-gray-300 rounded-l-md focus:outline-hidden focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600"
                             onBlur={() => {
                                 setTimeout(() => setShowSuggestions(false), 100)
                             }}
@@ -101,7 +101,7 @@ const Home = () => {
                             }}
                             type="submit"
                             disabled={loadingSuggestions || loadingSimilarBooks}
-                            className="relative flex justify-center items-center w-16 h-12 text-white bg-indigo-600 rounded-r-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50"
+                            className="relative flex justify-center items-center w-16 h-12 text-white bg-indigo-600 rounded-r-md hover:bg-indigo-700 focus:outline-hidden focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50"
                         >
                             {loadingSuggestions || loadingSimilarBooks ? (
                                 <div className="dot-flashing"></div>

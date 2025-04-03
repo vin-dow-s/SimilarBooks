@@ -15,7 +15,7 @@ const SimilarBooks = ({ books }) => {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <div className="relative w-32 h-48 rounded cursor-pointer">
+                            <div className="relative w-32 h-48 rounded-sm cursor-pointer">
                                 {book.volumeInfo?.imageLinks?.thumbnail ? (
                                     <Image
                                         src={book.volumeInfo?.imageLinks?.thumbnail?.replace(
@@ -30,10 +30,10 @@ const SimilarBooks = ({ books }) => {
                                             width: "100%",
                                             height: "100%",
                                         }}
-                                        className="rounded opacity-100 hover:opacity-50 transition-opacity duration-200 ease-in-out"
+                                        className="rounded-sm opacity-100 hover:opacity-50 transition-opacity duration-200 ease-in-out"
                                     />
                                 ) : (
-                                    <div className="bg-gray-300 rounded w-32 h-48 flex items-center justify-center">
+                                    <div className="bg-gray-300 rounded-sm w-32 h-48 flex items-center justify-center">
                                         No image
                                     </div>
                                 )}

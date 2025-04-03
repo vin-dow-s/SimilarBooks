@@ -7,7 +7,7 @@ const BookSuggestions = ({ suggestions, onSelect }) => {
             {suggestions.map((suggestion) => (
                 <li
                     key={suggestion.etag}
-                    className="flex h-16 [&:not(:last-child)]:border-b-2 justify-between items-center px-4 py-2 hover:bg-gray-100 cursor-pointer text-black"
+                    className="flex h-16 not-last:border-b-2 justify-between items-center px-4 py-2 hover:bg-gray-100 cursor-pointer text-black"
                     onMouseDown={() => onSelect(suggestion)}
                 >
                     <div className="flex-1 truncate">
@@ -32,7 +32,7 @@ const BookSuggestions = ({ suggestions, onSelect }) => {
                                 width: "32px",
                                 height: "auto",
                             }}
-                            className="rounded"
+                            className="rounded-sm"
                         />
                     )}
                 </li>
