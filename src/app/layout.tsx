@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import { Analytics } from '@vercel/analytics/react'
 import type { Metadata, Viewport } from 'next'
 import { inter, lobster } from '../../public/fonts/fonts'
 import './globals.css'
@@ -6,7 +7,7 @@ import './globals.css'
 export const metadata: Metadata = {
     title: 'Similar Books – Smart AI Book Recommendations',
     description:
-        'Find your next read in seconds. Enter any book title and get 3 similar recommendations powered by AI. No sign-up. No bullshit. Just books.',
+        'Instant book recommendations powered by AI. No sign-up. No bullshit. No ads. Just enter a title and get 3 recommendations in seconds.',
     keywords: [
         'book recommendations',
         'AI books',
@@ -59,7 +60,10 @@ export default function RootLayout({
             lang="en"
             className={cn(inter.variable, lobster.variable, 'h-dvh')}
         >
-            <body className="antialiased">{children}</body>
+            <body className="antialiased">
+                {children}
+                <Analytics />
+            </body>
         </html>
     )
 }

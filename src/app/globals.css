@@ -22,7 +22,7 @@ body {
     font-family: var(--font-inter, Arial, sans-serif);
 }
 
-h1 {
+.lobster {
     font-family: var(--font-lobster, Arial, sans-serif);
     font-weight: 400;
     font-style: normal;

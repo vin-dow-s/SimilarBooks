@@ -32,12 +32,17 @@ export default function SearchInterface() {
                 loadingSimilarBooks || similarBooks.length > 0
                     ? 'justify-center'
                     : 'justify-start lg:justify-start lg:pt-44'
-            } min-h-dvh px-4 py-8 sm:px-6 lg:px-8`}
+            } px-4 py-2 sm:px-6 lg:px-8`}
         >
-            <h1 className="mt-12 text-4xl font-bold lg:text-5xl">
+            <h1 className="lobster mt-16 text-5xl font-bold text-white lg:text-6xl">
                 Find Similar Books
             </h1>
-            <form className="mt-6 mb-12 w-full max-w-lg">
+            <p className="mt-4 max-w-2xl text-center text-lg text-gray-400 max-sm:text-base">
+                Type a title. Get 3 recommendations — instantly. No sign-up. No
+                bullshit.
+            </p>
+
+            <form className="my-12 w-full max-w-lg">
                 <div className="relative flex w-full max-w-lg items-center">
                     <input
                         type="text"
@@ -102,14 +107,6 @@ export default function SearchInterface() {
             ) : (
                 similarBooks.length > 0 && <SimilarBooks books={similarBooks} />
             )}
-
-            <div className="absolute bottom-0 mb-2 text-sm">
-                © 2025- by{' '}
-                <a href="mailto:vincent@vindows.dev" className="italic">
-                    Vindows
-                </a>
-                .
-            </div>
         </div>
     )
 }
