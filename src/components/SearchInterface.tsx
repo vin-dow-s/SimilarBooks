@@ -27,20 +27,6 @@ export default function SearchInterface() {
         setShowSuggestions(false)
     }
 
-    if (
-        hasSubmitted &&
-        (suggestions.length === 0 || similarBooks.length === 0)
-    ) {
-        return (
-            <div className="flex h-dvh items-center justify-center">
-                <p className="text-2xl">
-                    No results found. Try a different book title or check
-                    spelling.
-                </p>
-            </div>
-        )
-    }
-
     return (
         <div
             className={`relative flex flex-col items-center ${
@@ -116,9 +102,17 @@ export default function SearchInterface() {
 
             {loadingSimilarBooks ? (
                 <LoadingSkeleton />
-            ) : (
-                similarBooks.length > 0 && <SimilarBooks books={similarBooks} />
-            )}
+            ) : hasSubmitted ? (
+                similarBooks.length > 0 ? (
+                    <SimilarBooks books={similarBooks} />
+                ) : (
+                    <p className="mt-8 text-lg text-gray-400">
+                        😕 No results found. Try another title or check the
+                        spelling.
+                    </p>
+                )
+            ) : null}
+
             <div className="absolute bottom-0 mb-2 text-sm">
                 © 2025- by{' '}
                 <a href="mailto:vincent@vindows.dev" className="italic">

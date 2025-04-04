@@ -19,7 +19,16 @@ export async function POST(req: Request) {
         apiKey: process.env.OPENAI_API_KEY!,
     })
 
-    const prompt = `Given the following book description, give me the titles of 3 similar novels (not the same one) in English, separated by a comma. Description:\n\n${description}`
+    const prompt = `
+    You are a literary recommendation expert.
+    
+    Given the following book description, return **exactly 3 different English novel titles** that are **similar in theme, narrative style, or setting** — but **not the same book**.
+    
+    ⚠️ Output only a clean, comma-separated list of titles — no numbering, no extra commentary, no quotes.
+    
+    Description:
+    ${description}
+    `
 
     try {
         const response = await openai.chat.completions.create({
