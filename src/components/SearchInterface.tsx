@@ -2,6 +2,7 @@
 
 import { useBookSuggestions } from '@/hooks/useBookSuggestions'
 import { useSimilarBooks } from '@/hooks/useSimilarBooks'
+import { Book } from '@/lib/types'
 import Image from 'next/image'
 import { useState } from 'react'
 import BookSuggestions from './BookSuggestions'
@@ -12,12 +13,12 @@ export default function SearchInterface() {
     const [bookTitle, setBookTitle] = useState('')
     const [showSuggestions, setShowSuggestions] = useState(false)
     const [hasSubmitted, setHasSubmitted] = useState(false)
-    const [selectedBook, setSelectedBook] = useState<any>(null)
+    const [selectedBook, setSelectedBook] = useState<Book | null>(null)
 
     const { suggestions, loading: loadingSuggestions } =
         useBookSuggestions(bookTitle)
     const { similarBooks, loading: loadingSimilarBooks } = useSimilarBooks(
-        selectedBook?.volumeInfo?.description,
+        selectedBook?.volumeInfo?.description || '',
     )
 
     const handleSelectBook = (book: any) => {
