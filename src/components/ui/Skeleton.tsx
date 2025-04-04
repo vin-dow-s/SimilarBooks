@@ -7,10 +7,7 @@ type SkeletonProps = {
 const Skeleton = ({ className }: SkeletonProps) => {
     return (
         <div
-            className={cn(
-                'animate-pulse rounded-sm bg-gray-300 dark:bg-gray-600',
-                className,
-            )}
+            className={cn('animate-pulse rounded-sm bg-gray-600', className)}
         />
     )
 }
