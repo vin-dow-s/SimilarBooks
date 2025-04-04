@@ -6,7 +6,6 @@ import { Book } from '@/lib/types'
 import Image from 'next/image'
 import { useState } from 'react'
 import BookSuggestions from './BookSuggestions'
-import LoadingSkeleton from './LoadingSkeleton'
 import SimilarBooks from './SimilarBooks'
 
 export default function SearchInterface() {
@@ -70,11 +69,10 @@ export default function SearchInterface() {
                             if (selectedBook) {
                                 const currentBook = selectedBook
                                 setSelectedBook(null)
-                                setTimeout(
-                                    () => setSelectedBook(currentBook),
-                                    0,
-                                )
-                                setHasSubmitted(true)
+                                setTimeout(() => {
+                                    setSelectedBook(currentBook)
+                                    setHasSubmitted(true)
+                                }, 0)
                             }
                         }}
                         type="submit"
@@ -100,18 +98,16 @@ export default function SearchInterface() {
                 </p>
             </form>
 
-            {loadingSimilarBooks ? (
-                <LoadingSkeleton />
-            ) : hasSubmitted ? (
-                similarBooks.length > 0 ? (
+            {hasSubmitted &&
+                !loadingSimilarBooks &&
+                (similarBooks.length > 0 ? (
                     <SimilarBooks books={similarBooks} />
                 ) : (
                     <p className="mt-8 text-lg text-gray-400">
                         😕 No results found. Try another title or check the
                         spelling.
                     </p>
-                )
-            ) : null}
+                ))}
 
             <div className="absolute bottom-0 mb-2 text-sm">
                 © 2025- by{' '}
