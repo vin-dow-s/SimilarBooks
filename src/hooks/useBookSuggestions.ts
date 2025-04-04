@@ -29,12 +29,10 @@ export const useBookSuggestions = (bookTitle: string) => {
 
                 const data: Book[] = await response.json()
                 setSuggestions(data || [])
-            } catch (err: any) {
-                if (err.name !== 'AbortError') {
+            } catch (err: unknown) {
+                if (err instanceof Error && err.name !== 'AbortError') {
                     console.error('Error fetching book suggestions:', err)
-                    setError(
-                        `Failed to fetch suggestions: ${err.message || err.toString()}`,
-                    )
+                    setError(`Failed to fetch suggestions: ${err.message}`)
                 }
             } finally {
                 setLoading(false)

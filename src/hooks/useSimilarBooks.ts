@@ -17,10 +17,11 @@ export const useSimilarBooks = (description: string) => {
                 const titles = await fetchSimilarBookTitles(description)
                 const books = await fetchBookDetails(titles)
                 setSimilarBooks(books)
-            } catch (err: any) {
-                setError(
-                    `Failed to fetch similar books: ${err.message || err.toString()}`,
-                )
+            } catch (err: unknown) {
+                if (err instanceof Error) {
+                    console.error('Error fetching similar books:', err)
+                    setError(`Failed to fetch similar books: ${err.message}`)
+                }
             } finally {
                 setLoading(false)
             }
