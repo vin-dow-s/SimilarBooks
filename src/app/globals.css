@@ -4,8 +4,8 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background: 1c1b22;
-    color: fbfbfe;
+    background: #1c1b22;
+    color: #fbfbfe;
     font-family: var(--font-inter, Arial, sans-serif);
 }
 
