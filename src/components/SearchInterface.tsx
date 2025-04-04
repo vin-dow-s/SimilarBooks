@@ -21,7 +21,7 @@ export default function SearchInterface() {
         selectedBook?.volumeInfo?.description || '',
     )
 
-    const handleSelectBook = (book: any) => {
+    const handleSelectBook = (book: Book) => {
         setBookTitle(book.volumeInfo.title)
         setSelectedBook(book)
         setShowSuggestions(false)
