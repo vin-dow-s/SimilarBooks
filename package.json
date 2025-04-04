@@ -1,26 +1,35 @@
 {
-    "name": "similar-books",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start",
-        "lint": "next lint"
-    },
-    "dependencies": {
-        "@nextui-org/react": "^2.6.11",
-        "@tailwindcss/postcss": "^4.1.2",
-        "next": "^15.2.4",
-        "openai": "^4.91.1",
-        "postcss": "^8.5.3",
-        "react": "^19.1.0",
-        "react-dom": "^19.1.0",
-        "sharp": "^0.33.5",
-        "tailwindcss": "^4.1.2"
-    },
-    "devDependencies": {
-        "eslint": "^9.23.0",
-        "eslint-config-next": "15.2.4"
-    }
+  "name": "similar-books",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "next": "15.2.4",
+    "openai": "^4.91.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.1.2",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
+    "eslint": "^9.23.0",
+    "eslint-config-next": "15.2.4",
+    "eslint-plugin-readable-tailwind": "^2.0.0",
+    "eslint-plugin-tailwindcss": "^3.18.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "tailwind-merge": "^3.1.0",
+    "tailwindcss": "^4.1.2",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.29.0"
+  }
 }

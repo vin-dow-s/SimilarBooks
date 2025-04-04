@@ -1,0 +1,23 @@
+{
+    "name": "Similar Books – Smart AI Book Recommendations",
+    "short_name": "Similar Books",
+    "description": "Find your next read in seconds. Enter any book title and get 3 similar recommendations powered by AI.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#1c1b22",
+    "theme_color": "#4338CA",
+    "orientation": "portrait",
+    "lang": "en",
+    "icons": [
+        {
+            "src": "/icons/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icons/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
