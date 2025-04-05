@@ -38,8 +38,7 @@ export default function SearchInterface() {
                 Find Similar Books
             </h1>
             <p className="mt-4 max-w-2xl text-center text-lg text-gray-400 max-sm:text-base">
-                Type a title. Get 3 recommendations — instantly. No sign-up. No
-                bullshit.
+                No sign-up. Fast & Free. Get 3 book recommendations in seconds.
             </p>
 
             <form className="my-12 w-full max-w-lg">
