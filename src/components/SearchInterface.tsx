@@ -28,10 +28,10 @@ export default function SearchInterface() {
 
     return (
         <div
-            className={`relative flex flex-col items-center ${
+            className={`relative flex w-full flex-col items-center ${
                 loadingSimilarBooks || similarBooks.length > 0
                     ? 'justify-center'
-                    : 'justify-start lg:justify-start lg:pt-44'
+                    : 'justify-start lg:justify-start lg:pt-24'
             } px-4 py-2 sm:px-6 lg:px-8`}
         >
             <h1 className="lobster mt-16 text-5xl font-bold text-white lg:text-6xl">
@@ -102,11 +102,15 @@ export default function SearchInterface() {
                 </p>
             </form>
 
-            {loadingSimilarBooks ? (
-                <LoadingSkeleton />
-            ) : (
-                similarBooks.length > 0 && <SimilarBooks books={similarBooks} />
-            )}
+            <div>
+                {loadingSimilarBooks ? (
+                    <LoadingSkeleton />
+                ) : (
+                    similarBooks.length > 0 && (
+                        <SimilarBooks books={similarBooks} />
+                    )
+                )}
+            </div>
         </div>
     )
 }

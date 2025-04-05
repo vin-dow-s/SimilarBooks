@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer'
 import { cn } from '@/lib/utils'
 import { Analytics } from '@vercel/analytics/react'
 import type { Metadata, Viewport } from 'next'
@@ -60,9 +61,10 @@ export default function RootLayout({
             lang="en"
             className={cn(inter.variable, lobster.variable, 'h-dvh')}
         >
-            <body className="antialiased">
+            <body className="flex min-h-dvh flex-col antialiased">
                 {children}
                 <Analytics />
+                <Footer />
             </body>
         </html>
     )

@@ -14,7 +14,7 @@ const SimilarBooks = ({ books }: Props) => {
                 {books.map((book) => (
                     <li
                         key={book.id}
-                        className="flex w-full flex-col items-center gap-2 p-8 max-sm:mb-16 md:w-1/3"
+                        className="flex w-full flex-col items-center justify-center gap-2 p-8 max-sm:mb-16 md:w-1/3"
                     >
                         <a
                             href={book.volumeInfo?.infoLink}
@@ -45,7 +45,7 @@ const SimilarBooks = ({ books }: Props) => {
                                     </div>
                                 )}
                             </div>
-                            <div className="content-center text-center">
+                            <div className="w-full content-center text-center">
                                 <h3 className="mt-4 text-2xl font-semibold">
                                     {book.volumeInfo.title &&
                                     book.volumeInfo.title?.length > 30
